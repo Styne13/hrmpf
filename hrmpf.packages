@@ -289,8 +289,6 @@ xtools
 
 # filesystems & storage
 bcache-tools
-bcachefs-dkms
-bcachefs-tools
 btrfs-progs
 cryptsetup
 dmg2img

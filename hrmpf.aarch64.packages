@@ -1,2 +1,6 @@
+# kernel
+linux6.18
+linux6.18-headers
+
 # bootloader
 grub-arm64-efi

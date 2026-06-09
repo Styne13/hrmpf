@@ -26,7 +26,6 @@ lsof
 lsscsi
 ltrace
 memtester
-nano-exporter
 nethogs
 pciutils
 powertop
@@ -99,7 +98,6 @@ net-tools
 nfs-utils
 nftables
 ngrep
-nitro
 nload
 nmon
 ntp
@@ -113,7 +111,6 @@ pptpclient
 radvd
 redsocks
 rpcbind
-s6
 s6-dns
 s6-linux-utils
 s6-networking

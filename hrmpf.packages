@@ -398,6 +398,7 @@ openssl
 p0f
 paperkey
 pass
+passage
 passwdqc
 pdfcrack
 pgpdump
@@ -533,6 +534,7 @@ vim
 
 # clients
 alpine
+chawan
 edbrowse
 elinks
 ii

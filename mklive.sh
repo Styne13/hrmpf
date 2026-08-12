@@ -626,7 +626,14 @@ HOST_ARCH=$(xbps-uhelper arch)
 XBPS_TARGET_ARCH="$TARGET_ARCH" register_binfmt
 
 case "$TARGET_ARCH" in
-	x86_64*|i686*)
+	i686*)
+		# no EFI on i686: unsupported by most old legacy hardware
+		BOOTLOADERS=(syslinux)
+		IMAGE_TYPE='hybrid'
+		TARGET_PKGS+=(syslinux memtest86+)
+        PLATFORMS=() # arm only
+		;;
+	x86_64*)
 		BOOTLOADERS=(syslinux grub)
 		IMAGE_TYPE='hybrid'
 		TARGET_PKGS+=(syslinux grub-i386-efi grub-x86_64-efi memtest86+)
@@ -794,8 +801,10 @@ if [ "$IMAGE_TYPE" = hybrid ]; then
     generate_isolinux_boot
 fi
 
-print_step "Generating GRUB support for EFI systems..."
-generate_grub_efi_boot
+if printf '%s\n' "${BOOTLOADERS[@]}" | grep -qx grub; then
+    print_step "Generating GRUB support for EFI systems..."
+    generate_grub_efi_boot
+fi
 
 print_step "Cleaning up rootfs..."
 cleanup_rootfs

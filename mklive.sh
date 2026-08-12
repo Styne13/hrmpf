@@ -30,7 +30,7 @@ umask 022
 
 REQUIRED_PKGS=(base-files libgcc dash coreutils sed tar gawk squashfs-tools xorriso)
 TARGET_PKGS=(base-files)
-INITRAMFS_PKGS=(binutils xz device-mapper dhclient dracut-network openresolv)
+INITRAMFS_PKGS=(binutils xz device-mapper dhclient dracut-network openresolv curl)
 PACKAGE_LIST=()
 IGNORE_PKGS=()
 PLATFORMS=()

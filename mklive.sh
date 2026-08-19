@@ -502,28 +502,14 @@ EOF
 
 generate_squashfs() {
     umount_pseudofs || exit 1
-
-    # Find out required size for the rootfs and create an ext3fs image off it.
-    ROOTFS_SIZE=$(du --apparent-size -sm "$ROOTFS"|awk '{print $1}')
-    if [ -z "$ROOTFS_FREESIZE" ]; then
-        ROOTFS_FREESIZE="$((ROOTFS_SIZE/6))"
-    fi
-    mkdir -p "$BUILDDIR/tmp/LiveOS"
-    truncate -s "$((ROOTFS_SIZE+ROOTFS_FREESIZE))M" \
-	    "$BUILDDIR"/tmp/LiveOS/ext3fs.img >/dev/null 2>&1
-    mkdir -p "$BUILDDIR/tmp-rootfs"
-    mkfs.ext3 -F -m1 "$BUILDDIR/tmp/LiveOS/ext3fs.img" >/dev/null 2>&1
-    mount -o loop "$BUILDDIR/tmp/LiveOS/ext3fs.img" "$BUILDDIR/tmp-rootfs"
-    cp -a "$ROOTFS"/* "$BUILDDIR"/tmp-rootfs/
-    umount -f "$BUILDDIR/tmp-rootfs"
     mkdir -p "$IMAGEDIR/LiveOS"
 
-    "$VOIDHOSTDIR"/usr/bin/mksquashfs "$BUILDDIR/tmp" "$IMAGEDIR/LiveOS/squashfs.img" \
+    "$VOIDHOSTDIR"/usr/bin/mksquashfs "$ROOTFS" "$IMAGEDIR/LiveOS/squashfs.img" \
         -comp ${SQUASHFS_COMPRESSION} || die "Failed to generate squashfs image"
     chmod 444 "$IMAGEDIR/LiveOS/squashfs.img"
 
-    # Remove rootfs and temporary dirs, we don't need them anymore.
-    rm -rf "$ROOTFS" "$BUILDDIR/tmp-rootfs" "$BUILDDIR/tmp"
+    # Remove rootfs, we don't need it anymore.
+    rm -rf "$ROOTFS"
 }
 
 generate_iso_image() {
